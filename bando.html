@@ -112,13 +112,45 @@ header p { font-size: 20px; opacity: 0.8; }
 
 /* ===== DRAWER (BIỂU MẪU) ===== */
 #openForm{ position:fixed; bottom:30px; right:30px; background:var(--accent); color:#fff; padding:15px; border-radius:50%; width:65px; height:65px; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); font-size: 30px; }
-#drawer{ position:fixed; bottom:-100%; left:0; width:100%; background:var(--paper); border-top:3px solid var(--border); transition:.4s ease-in-out; z-index:9999; }
+/* ===== DRAWER (BIỂU MẪU) – THU GỌN ===== */
+#drawer{
+    position:fixed;
+    bottom:-100%;
+    left:0;
+    width:100%;
+    background:var(--paper);
+    border-top:3px solid var(--border);
+    transition:.4s ease-in-out;
+    z-index:9999;
+    max-height:62vh;          /* ⬅️ chỉ chiếm 70% chiều cao */
+    overflow-y:auto;          /* ⬅️ cuộn nếu nội dung dài */
+}
 #drawer.active{ bottom:0; }
-#drawer form{ padding:30px; display:grid; gap:15px; max-width: 600px; margin: 0 auto; }
-#drawer h3 { font-size: 24px; margin-bottom: 5px; text-align: center; }
 
-input, textarea, select, button.submit-btn { padding: 15px; font-size: 16px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; }
-button.submit-btn { background: var(--accent); color: white; border: none; font-weight: bold; cursor: pointer; font-size: 18px; margin-top: 10px; }
+#drawer form{
+    padding:20px;             /* ⬅️ giảm padding */
+    display:grid;
+    gap:10px;                 /* ⬅️ giảm khoảng cách */
+    max-width:520px;          /* ⬅️ form hẹp hơn */
+    margin:0 auto;
+}
+
+#drawer h3{
+    font-size:20px;           /* ⬅️ chữ nhỏ hơn */
+    margin-bottom:5px;
+    text-align:center;
+}
+
+input, textarea, select{
+    padding:10px;             /* ⬅️ input gọn hơn */
+    font-size:15px;
+}
+
+button.submit-btn{
+    font-size:16px;
+    padding:12px;
+}
+
 
 footer{ background:#111; color:#aaa; text-align:center; padding:50px 20px; font-size: 14px; letter-spacing: 1px; }
 </style>
@@ -161,9 +193,11 @@ footer{ background:#111; color:#aaa; text-align:center; padding:50px 20px; font-
 
 <div class="timeline-note">📜 DÒNG THỜI GIAN ĐỊA DANH</div>
 <div id="timeline"></div>
+<div class="timeline-note">
+✍️ CHIA SẺ KÝ ỨC CỦA BẠN (Click vào bản đồ để chọn vị trí)
+</div>
 
 <div id="map"></div>
-
 <div class="timeline-note">✍️ NHỮNG KÝ ỨC BẠN ĐÃ VIẾT</div>
 <section class="user-memories-area" id="userList"></section>
 
