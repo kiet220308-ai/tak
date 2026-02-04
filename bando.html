@@ -3,24 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trạm Ký Ức – Bản Đồ Ký Ức</title>
-
+<title>Trạm Ký Ức</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-
 <style>
 :root{
-    --paper:#f4eee0;
-    --ink:#4a3f35;
-    --accent:#8c6a5a;
-    --border:#d1bfa7;
+    --paper:#f4eee0; --ink:#4a3f35; --accent:#8c6a5a; --border:#d1bfa7; --gold: #d4af37;
+}
+body{ 
+    margin:0; 
+    font-family:"Lora", serif; 
+    background:var(--paper); 
+    color:var(--ink); 
+    font-size: 18px; /* Tăng kích thước chữ tổng thể */
+    line-height: 1.6;
 }
 
-body{
-    margin:0;
-    font-family:"Lora",serif;
-    background:var(--paper);
-    color:var(--ink);
-}
 /* ===== TOP NAV ===== */
 /* ===== NAVBAR ===== */
 .top-nav{
@@ -79,126 +76,71 @@ body{
 .nav-menu a:hover{opacity:1}
 
 .nav-search{color:#fff;cursor:pointer}
-/* ===== HEADER ===== */
-header{
-    text-align:center;
-    padding:100px;
-    border-bottom:1px solid var(--border);
-}
+.search-container { display: flex; align-items: center; background: #222; border-radius: 20px; padding: 5px 15px; border: 1px solid #444; }
+.search-container input { background: transparent; border: none; color: white; padding: 5px; outline: none; font-size: 16px; width: 160px; }
 
-/* ===== NOTE ===== */
-.timeline-note{
-    padding:10px 16px;
-    font-size:20px;
-    font-style:italic;
-    color:#4a3f35;
-    background:#fff9ee;
-    border-left:4px solid var(--accent);
-    border-bottom:1px dashed var(--border);
-}
+header{ text-align:center; padding:110px 20px 40px; border-bottom:1px solid var(--border); }
+header h2 { font-size: 32px; margin-bottom: 10px; }
+header p { font-size: 20px; opacity: 0.8; }
 
-/* ===== TIMELINE ===== */
-#timeline{
-    display:flex;
-    gap:10px;
-    padding:10px;
-    overflow-x:auto;
-    border-bottom:1px dashed var(--border);
-}
-.timeline-item{
-    background:#fff8ec;
-    padding:6px 14px;
-    border-radius:20px;
-    cursor:pointer;
-    border:1px solid var(--border);
-    white-space:nowrap;
-    font-size:14px;
-}
+/* ===== FILTER BAR ===== */
+.filter-bar { display: flex; justify-content: center; gap: 12px; padding: 15px; background: #fffdf7; border-bottom: 1px solid var(--border); }
+.filter-btn { padding: 10px 20px; border: 1px solid var(--border); background: white; cursor: pointer; border-radius: 6px; font-size: 14px; font-weight: bold; transition: 0.3s; }
+.filter-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-/* ===== MAP ===== */
-#map{
-    height:65vh;
-}
+/* ===== TIMELINE & MAP ===== */
+.timeline-note{ padding:15px 20px; font-size:20px; font-weight: bold; font-style:italic; background:#fff9ee; border-left:6px solid var(--accent); border-bottom: 1px dashed var(--border); }
+#timeline{ display:flex; gap:12px; padding:15px; overflow-x:auto; background: #fdfaf3; }
+.timeline-item{ background:#fff; padding:10px 18px; border-radius:25px; cursor:pointer; border:1px solid var(--border); white-space:nowrap; font-size:15px; font-weight: 500; }
 
-/* ===== DRAWER BUTTON ===== */
-#openForm{
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    background:var(--accent);
-    color:#fff;
-    padding:12px 16px;
-    border-radius:30px;
-    cursor:pointer;
-    z-index:999;
-}
+#map{ height:55vh; width: 100%; border-bottom: 2px solid var(--border); }
 
-/* ===== DRAWER ===== */
-#drawer{
-    position:fixed;
-    bottom:-100%;
-    left:0;
-    width:100%;
-    background:var(--paper);
-    border-top:2px solid var(--border);
-    transition:.4s;
-    z-index:998;
+/* ===== USER LIST ===== */
+.user-memories-area { padding: 25px; background: #f4eee0; }
+.memory-card { 
+    background: white; border-radius: 10px; padding: 20px; margin-bottom: 15px; 
+    border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
+.memory-content h4 { margin: 0 0 5px 0; color: var(--accent); font-size: 20px; }
+.memory-content p { margin: 0; font-size: 16px; color: #666; }
+.card-btns button { background: none; border: none; cursor: pointer; font-size: 22px; margin-left: 12px; }
+
+/* ===== POPUP MAP (CHÚ THÍCH) ===== */
+.leaflet-popup-content { font-size: 16px; line-height: 1.5; font-family: "Lora", serif; }
+.leaflet-popup-content b { font-size: 18px; color: var(--accent); }
+
+/* ===== DRAWER (BIỂU MẪU) ===== */
+#openForm{ position:fixed; bottom:30px; right:30px; background:var(--accent); color:#fff; padding:15px; border-radius:50%; width:65px; height:65px; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); font-size: 30px; }
+#drawer{ position:fixed; bottom:-100%; left:0; width:100%; background:var(--paper); border-top:3px solid var(--border); transition:.4s ease-in-out; z-index:9999; }
 #drawer.active{ bottom:0; }
+#drawer form{ padding:30px; display:grid; gap:15px; max-width: 600px; margin: 0 auto; }
+#drawer h3 { font-size: 24px; margin-bottom: 5px; text-align: center; }
 
-#drawer form{
-    padding:16px;
-    display:grid;
-    gap:10px;
-}
+input, textarea, select, button.submit-btn { padding: 15px; font-size: 16px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; }
+button.submit-btn { background: var(--accent); color: white; border: none; font-weight: bold; cursor: pointer; font-size: 18px; margin-top: 10px; }
 
-input,textarea,button{
-    padding:10px;
-    font-size:14px;
-    border:1px solid var(--border);
-    background:#fffdf7;
-}
-
-button{
-    background:var(--accent);
-    color:white;
-    border:none;
-    cursor:pointer;
-}
-
-/* ===== DESKTOP ===== */
-@media(min-width:900px){
-    #drawer{
-        position:static;
-        border:none;
-    }
-    #openForm{ display:none; }
-}
-/* ================= FOOTER ================= */
-footer{
-    background:#222;
-    color:#aaa;
-    text-align:center;
-    padding:40px;
-}
+footer{ background:#111; color:#aaa; text-align:center; padding:50px 20px; font-size: 14px; letter-spacing: 1px; }
 </style>
 </head>
-
 <body>
-      <!-- NAV -->
 <nav class="top-nav">
     <div class="nav-left">
         <div class="logo-box">
             <svg width="22" height="22" viewBox="0 0 24 24">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
-                      fill="#d4af37"/>
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#d4af37"/>
                 <circle cx="12" cy="9" r="3" fill="#111"/>
             </svg>
         </div>
         <div class="nav-logo-text">KHÔNG GIAN KÝ ỨC</div>
     </div>
+    
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Tìm địa danh..." onkeyup="renderAll()">
+        <span>🔍</span>
+    </div>
 
-   <ul class="nav-menu">
+    <ul class="nav-menu">
         <li><a href="index.html">Trang chủ</a></li>
         <li><a href="disan.html">Di sản</a></li>
         <li><a href="baotangso.html">Bảo tàng số</a></li>
@@ -211,197 +153,189 @@ footer{
     <p>Ký ức nằm dưới từng bước chân</p>
 </header>
 
-<div class="timeline-note">
-    📜MỘT SỐ ĐỊA ĐIỂM NỔI TIẾNG
+<div class="filter-bar">
+    <button class="filter-btn active" onclick="setFilter('all', this)">TẤT CẢ</button>
+    <button class="filter-btn" onclick="setFilter('private', this)">RIÊNG TƯ</button>
+    <button class="filter-btn" onclick="setFilter('public', this)">CỘNG ĐỒNG</button>
 </div>
 
+<div class="timeline-note">📜 DÒNG THỜI GIAN ĐỊA DANH</div>
 <div id="timeline"></div>
+
 <div id="map"></div>
-<div class="timeline-note">
-     CHỌN NƠI KÝ ỨC BẠN THUỘC VỀ
-</div>
-<div id="openForm">✍️ Thêm ký ức</div>
+
+<div class="timeline-note">✍️ NHỮNG KÝ ỨC BẠN ĐÃ VIẾT</div>
+<section class="user-memories-area" id="userList"></section>
+
+<div id="openForm" onclick="toggleDrawer()">+</div>
 
 <section id="drawer">
-<form id="memoryForm">
-    <input id="title" placeholder="Tên địa điểm" required>
-    <input id="year" placeholder="Mốc thời gian" required>
-    <textarea id="text" placeholder="Câu chuyện ký ức" required></textarea>
-    <input id="lat" type="number" step="any" placeholder="Vĩ độ" required>
-    <input id="lng" type="number" step="any" placeholder="Kinh độ" required>
-    <button>Lưu ký ức</button>
-</form>
+    <form id="memoryForm">
+        <h3>Ghi lại kỷ niệm</h3>
+        <select id="type">
+            <option value="public">Cộng đồng (Công khai)</option>
+            <option value="private">Riêng tư (Chỉ mình tôi)</option>
+        </select>
+        <input id="title" placeholder="Tên địa điểm" required>
+        <input id="year" placeholder="Mốc thời gian (Ví dụ: 2024, Thời học sinh...)" required>
+        <textarea id="text" placeholder="Bạn muốn kể gì về nơi này? (Chú thích)" rows="4" required></textarea>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+            <input id="lat" type="number" step="any" placeholder="Vĩ độ" required>
+            <input id="lng" type="number" step="any" placeholder="Kinh độ" required>
+        </div>
+        <button type="submit" class="submit-btn">Lưu ký ức</button>
+        <button type="button" onclick="toggleDrawer()" style="background:#bbb; color:white; border:none; padding:10px; cursor:pointer; border-radius:6px;">Đóng bảng</button>
+    </form>
 </section>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-/* ===== MAP INIT ===== */
-const map=L.map('map').setView([10.5,105.7],6);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
- attribution:'© OpenStreetMap'
-}).addTo(map);
+const map = L.map('map').setView([10.6, 105.6], 9);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-const icon=L.icon({
- iconUrl:'https://cdn-icons-png.flaticon.com/512/684/684908.png',
- iconSize:[30,30],
- iconAnchor:[15,30]
-});
-const selectIcon = L.icon({
- iconUrl:'https://cdn-icons-png.flaticon.com/512/684/684809.png',
- iconSize:[26,26],
- iconAnchor:[13,26],
- popupAnchor:[0,-20]
-});
+const iconSys = L.icon({ iconUrl:'https://cdn-icons-png.flaticon.com/512/684/684908.png', iconSize:[32,32], iconAnchor:[16,32] });
+const iconUser = L.icon({ iconUrl:'https://cdn-icons-png.flaticon.com/512/684/684809.png', iconSize:[32,32], iconAnchor:[16,32] });
 
-/* ===== DATA INIT ===== */
-let memories = JSON.parse(localStorage.getItem("memories"));
+const systemData = [
+    {id:"HS", isSystem: true, isLocked: true, type:"public", title:"Quần đảo Hoàng Sa", year:"Chủ quyền VN", text:"Lãnh thổ thiêng liêng của Việt Nam.", lat:16.5, lng:112.0},
+    {id:"TS", isSystem: true, isLocked: true, type:"public", title:"Quần đảo Trường Sa", year:"Chủ quyền VN", text:"Lãnh thổ thiêng liêng của Việt Nam.", lat:10.0, lng:114.0},
+    {id:"DT1", isSystem: true, isLocked: true, type:"public", title:"Trường THPT Hồng Ngự 3", year:"Hồng Ngự", text:"Mái trường thân yêu tại huyện Hồng Ngự, Đồng Tháp.", lat:10.8422, lng:105.2974},
+    {id:"DT2", isSystem: true, isLocked: true, type:"public", title:"Khu di tích Gò Tháp", year:"Tháp Mười", text:"Di tích quốc gia đặc biệt với nền văn hóa Óc Eo.", lat:10.6125, lng:105.8115},
+    {id:"DT3", isSystem: true, isLocked: true, type:"public", title:"Lăng cụ Phó bảng Nguyễn Sinh Sắc", year:"Cao Lãnh", text:"Nơi an nghỉ của thân sinh Chủ tịch Hồ Chí Minh.", lat:10.4552, lng:105.6295},
+    {id:"DT4", isSystem: true, isLocked: true, type:"public", title:"Vườn Quốc gia Tràm Chim", year:"Tam Nông", text:"Khu bảo tồn thiên nhiên ngập nước đặc trưng vùng Đồng Tháp Mười.", lat:10.6033, lng:105.5085},
+    {id:"V1", isSystem: true, isLocked: true, type:"public", title:"Văn Miếu – Quốc Tử Giám", year:"1070", text:"Trường đại học đầu tiên của Việt Nam.", lat:21.0287, lng:105.8350},
+    {id:"V3", isSystem: true, isLocked: true, type:"public", title:"Cố đô Huế", year:"1802", text:"Kinh đô cuối cùng của các triều đại phong kiến Việt Nam.", lat:16.4637, lng:107.5909},
+    {id:"V4", isSystem: true, isLocked: true, type:"public", title:"Phố cổ Hội An", year:"TK XVI", text:"Thương cảng cổ kính được bảo tồn nguyên vẹn.", lat:15.8801, lng:108.3380}
+];
 
-if(!memories || memories.length===0){
- memories=[
-  {id:1,title:"Văn Miếu – Quốc Tử Giám",year:"1070",text:"Trường đại học đầu tiên của Việt Nam.",lat:21.0287,lng:105.8350},
-  {id:2,title:"Hoàng thành Thăng Long",year:"1010",text:"Trung tâm quyền lực ngàn năm.",lat:21.0356,lng:105.8395},
-  {id:3,title:"Cố đô Huế",year:"1802–1945",text:"Kinh đô triều Nguyễn.",lat:16.4637,lng:107.5909},
-  {id:4,title:"Phố cổ Hội An",year:"Thế kỷ XVI",text:"Thương cảng cổ Đông – Tây.",lat:15.8801,lng:108.3380},
-  {id:5,title:"Địa đạo Củ Chi",year:"1960–1975",text:"Hệ thống địa đạo kháng chiến.",lat:11.1426,lng:106.4620},
-  {id:6,title:"Nhà tù Côn Đảo",year:"1862",text:"Chứng tích lịch sử.",lat:8.6846,lng:106.6083},
-  {id:7,title:"Dinh Độc Lập",year:"1975",text:"Dấu mốc thống nhất đất nước.",lat:10.7769,lng:106.6953}
- ];
- localStorage.setItem("memories",JSON.stringify(memories));
-}
+let userMemories = JSON.parse(localStorage.getItem("memories_v4")) || [];
+let memories = [...systemData, ...userMemories];
 
-let editingId=null;
+let currentFilter = 'all';
+let editingId = null;
 let tempMarker = null;
 
-/* ===== SAVE ===== */
-function save(){
- localStorage.setItem("memories",JSON.stringify(memories));
+function renderAll() {
+    memories.forEach(m => { if(m.marker) map.removeLayer(m.marker); });
+    const tl = document.getElementById("timeline");
+    const uList = document.getElementById("userList");
+    const search = document.getElementById("searchInput").value.toLowerCase();
+    tl.innerHTML = ""; uList.innerHTML = "";
+
+    const filtered = memories.filter(m => {
+        return (currentFilter === 'all' || m.type === currentFilter) && m.title.toLowerCase().includes(search);
+    });
+
+    filtered.forEach(m => {
+        let popupContent = `<div style="padding:5px;"><b>${m.title}</b><br><small style="color:#777">Thời gian: ${m.year}</small><p style="margin-top:10px;">${m.text}</p>`;
+        if(!m.isLocked) {
+            popupContent += `<hr><button onclick="editMem(${m.id})" style="color:#5a8c6a; background:none; border:1px solid #5a8c6a; padding:5px 10px; cursor:pointer; border-radius:4px;">Sửa</button> <button onclick="deleteMem(${m.id})" style="color:#8c5a5a; background:none; border:1px solid #8c5a5a; padding:5px 10px; cursor:pointer; border-radius:4px;">Xóa</button>`;
+        } else {
+            popupContent += `<i style="color:var(--gold); font-size:12px;">📍 Địa danh cố định hệ thống</i>`;
+        }
+        popupContent += `</div>`;
+
+        m.marker = L.marker([m.lat, m.lng], {icon: m.isSystem ? iconSys : iconUser}).addTo(map).bindPopup(popupContent);
+
+        const item = document.createElement("div");
+        item.className = "timeline-item";
+        item.textContent = m.title;
+        item.onclick = () => { map.setView([m.lat, m.lng], 14); m.marker.openPopup(); };
+        tl.appendChild(item);
+    });
+
+    userMemories.filter(m => m.title.toLowerCase().includes(search)).forEach(m => {
+        const card = document.createElement("div");
+        card.className = "memory-card";
+        card.innerHTML = `
+            <div class="memory-content" onclick="focusOn(${m.lat}, ${m.lng}, ${m.id})">
+                <h4>${m.title}</h4>
+                <p>${m.year} - Nhấn để xem trên bản đồ</p>
+            </div>
+            <div class="card-btns">
+                <button onclick="editMem(${m.id})">✏️</button>
+                <button onclick="deleteMem(${m.id})">🗑️</button>
+            </div>
+        `;
+        uList.appendChild(card);
+    });
 }
 
-/* ===== TIMELINE ===== */
-function renderTimeline(){
- timeline.innerHTML="";
- [...new Set(memories.map(m=>m.year))].sort().forEach(y=>{
-  const t=document.createElement("div");
-  t.className="timeline-item";
-  t.textContent=y;
-  t.onclick=()=>{
-   const m=memories.find(x=>x.year===y);
-   map.setView([m.lat,m.lng],14);
-   m.marker.openPopup();
-  };
-  timeline.appendChild(t);
- });
+function focusOn(lat, lng, id) {
+    map.setView([lat, lng], 15);
+    const m = memories.find(x => x.id === id);
+    if(m && m.marker) m.marker.openPopup();
+    window.scrollTo({ top: document.getElementById('map').offsetTop - 70, behavior: 'smooth' });
 }
 
-/* ===== MARKER ===== */
-function addMarker(m){
- m.marker=L.marker([m.lat,m.lng],{icon}).addTo(map)
- .bindPopup(`
-  <b>${m.title}</b><br>
-  <small>${m.year}</small>
-  <p>${m.text}</p>
-  <button onclick="editMemory(${m.id})">✏️ Sửa</button>
-  <button onclick="deleteMemory(${m.id})">🗑️ Xóa</button>
- `);
+function setFilter(t, btn) {
+    currentFilter = t;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderAll();
 }
 
-/* ===== RENDER ===== */
-memories.forEach(addMarker);
-renderTimeline();
+function toggleDrawer() { document.getElementById('drawer').classList.toggle("active"); }
 
-/* ===== CLICK MAP ===== */
-map.on("click",e=>{
- lat.value = e.latlng.lat.toFixed(6);
- lng.value = e.latlng.lng.toFixed(6);
-
- if(tempMarker) map.removeLayer(tempMarker);
-
- tempMarker = L.marker(e.latlng,{
-  icon: selectIcon,
-  opacity: 0.8
- }).addTo(map)
- .bindPopup("📍 Vị trí đang chọn")
- .openPopup();
+map.on("click", e => {
+    document.getElementById('lat').value = e.latlng.lat.toFixed(6);
+    document.getElementById('lng').value = e.latlng.lng.toFixed(6);
+    if(tempMarker) map.removeLayer(tempMarker);
+    tempMarker = L.marker(e.latlng, {icon: iconUser, opacity: 0.6}).addTo(map);
+    if(!document.getElementById('drawer').classList.contains("active")) toggleDrawer();
 });
 
-/* ===== FORM SUBMIT ===== */
-memoryForm.onsubmit=e=>{
- e.preventDefault();
+document.getElementById('memoryForm').onsubmit = e => {
+    e.preventDefault();
+    const data = {
+        type: document.getElementById('type').value,
+        title: document.getElementById('title').value,
+        year: document.getElementById('year').value,
+        text: document.getElementById('text').value,
+        lat: +document.getElementById('lat').value,
+        lng: +document.getElementById('lng').value,
+        isSystem: false, isLocked: false
+    };
 
- if(editingId){
-  const m=memories.find(x=>x.id===editingId);
-  map.removeLayer(m.marker);
-  m.title=title.value;
-  m.year=year.value;
-  m.text=text.value;
-  m.lat=+lat.value;
-  m.lng=+lng.value;
-  addMarker(m);
-  editingId=null;
- }else{
-  const m={
-   id:Date.now(),
-   title:title.value,
-   year:year.value,
-   text:text.value,
-   lat:+lat.value,
-   lng:+lng.value
-  };
-  memories.push(m);
-  addMarker(m);
- }
+    if(editingId) {
+        if(typeof editingId === "string") return;
+        const i = userMemories.findIndex(x => x.id === editingId);
+        userMemories[i] = { ...userMemories[i], ...data };
+        editingId = null;
+    } else {
+        userMemories.push({ id: Date.now(), ...data });
+    }
 
- save();
- renderTimeline();
- drawer.classList.remove("active");
- e.target.reset();
+    localStorage.setItem("memories_v4", JSON.stringify(userMemories));
+    memories = [...systemData, ...userMemories];
+    renderAll();
+    toggleDrawer();
+    e.target.reset();
 };
-if(tempMarker){
- map.removeLayer(tempMarker);
- tempMarker = null;
-}
 
-/* ===== EDIT ===== */
-function editMemory(id){
- const m=memories.find(x=>x.id===id);
- editingId=id;
- title.value=m.title;
- year.value=m.year;
- text.value=m.text;
- lat.value=m.lat;
- lng.value=m.lng;
- drawer.classList.add("active");
-}
-
-/* ===== DELETE ===== */
-function deleteMemory(id){
- if(!confirm("Xóa ký ức này?")) return;
- const i=memories.findIndex(x=>x.id===id);
- map.removeLayer(memories[i].marker);
- memories.splice(i,1);
- save();
- renderTimeline();
-}
-
-/* ===== DRAWER TOGGLE ===== */
-openForm.onclick=()=>{
- editingId=null;
- memoryForm.reset();
- drawer.classList.toggle("active");
+window.editMem = (id) => {
+    if(typeof id === "string") return alert("Không thể sửa địa danh hệ thống.");
+    const m = userMemories.find(x => x.id === id);
+    editingId = id;
+    document.getElementById('title').value = m.title;
+    document.getElementById('year').value = m.year;
+    document.getElementById('text').value = m.text;
+    document.getElementById('lat').value = m.lat;
+    document.getElementById('lng').value = m.lng;
+    toggleDrawer();
 };
+
+window.deleteMem = (id) => {
+    if(typeof id === "string") return alert("Không thể xóa địa danh hệ thống.");
+    if(!confirm("Bạn có chắc chắn muốn xóa ký ức này?")) return;
+    userMemories = userMemories.filter(x => x.id !== id);
+    localStorage.setItem("memories_v4", JSON.stringify(userMemories));
+    memories = [...systemData, ...userMemories];
+    renderAll();
+};
+
+renderAll();
 </script>
-<!-- FOOTER -->
-<footer>
-    @DESIGN BY -TRẦN ANH KIỆT-
-</footer>
-
+<footer>@DESIGN BY -TRẦN ANH KIỆT-</footer>
 </body>
 </html>
-
-
-
-
-
-
-
-
