@@ -250,6 +250,7 @@ let editingId = null;
 let tempMarker = null;
 
 function renderAll() {
+    markerLayer.clearLayers(); // 🔥 xoá sạch marker cũ
     memories.forEach(m => { if(m.marker) map.removeLayer(m.marker); });
     const tl = document.getElementById("timeline");
     const uList = document.getElementById("userList");
@@ -269,7 +270,10 @@ function renderAll() {
         }
         popupContent += `</div>`;
 
-        m.marker = L.marker([m.lat, m.lng], {icon: m.isSystem ? iconSys : iconUser}).addTo(map).bindPopup(popupContent);
+       m.marker = L.marker([m.lat, m.lng], {
+    icon: m.isSystem ? iconSys : iconUser
+}).addTo(markerLayer).bindPopup(popupContent);
+
 
         const item = document.createElement("div");
         item.className = "timeline-item";
@@ -315,7 +319,11 @@ map.on("click", e => {
     document.getElementById('lat').value = e.latlng.lat.toFixed(6);
     document.getElementById('lng').value = e.latlng.lng.toFixed(6);
     if(tempMarker) map.removeLayer(tempMarker);
-    tempMarker = L.marker(e.latlng, {icon: iconUser, opacity: 0.6}).addTo(map);
+    tempMarker = L.marker(e.latlng, {
+    icon: iconUser,
+    opacity: 0.6
+}).addTo(markerLayer);
+
     if(!document.getElementById('drawer').classList.contains("active")) toggleDrawer();
 });
 
@@ -373,3 +381,4 @@ renderAll();
 <footer>@DESIGN BY -TRẦN ANH KIỆT-</footer>
 </body>
 </html>
+
