@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bảo Tàng Số</title>
-
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 <style>
 /* ========== ROOT ========== */
 :root{
@@ -107,7 +107,30 @@ body{
   transition:.8s;
 }
 .museum-intro.open .intro-text{opacity:0}
-
+/* ========== ABOUT SECTION (ĐÃ FIX) ========== */
+.museum-about {
+    padding: 120px 20px 60px;
+    background: #000; 
+    text-align: center;
+    color: #fff;
+}
+.about-container { 
+    max-width: 800px; 
+    margin: 0 auto; 
+    opacity: 0; 
+    transform: translateY(30px); 
+    transition: 1.2s ease; 
+}
+/* Class show này sẽ được JS kích hoạt */
+.about-container.show { 
+    opacity: 1; 
+    transform: translateY(0); 
+}
+.about-subtitle { font-family: serif; color: var(--gold); font-size: 2.2rem; margin-bottom: 20px; font-style: italic; }
+.about-text { line-height: 1.8; font-size: 1.1rem; color: #ccc; margin-bottom: 40px; }
+.about-stats { display: flex; justify-content: center; gap: 40px; border-top: 1px solid rgba(201, 164, 76, 0.2); padding-top: 30px; }
+.stat-number { color: var(--gold); font-size: 2.2rem; font-weight: bold; display: block; }
+.stat-label { font-size: 0.8rem; text-transform: uppercase; color: #888; }
 /* ========== MUSEUM ========== */
 .museum{
   background:var(--dark);
@@ -292,7 +315,19 @@ footer{
   <div class="door right"></div>
   <div class="intro-text">BẢO TÀNG SỐ</div>
 </div>
-
+<section class="museum-about">
+            <div class="about-container" id="aboutTarget">
+                <h2 class="about-subtitle">Gìn giữ hồn cốt dân tộc trong kỷ nguyên số</h2>
+                <p class="about-text">
+                    Chào mừng bạn đến với không gian lưu trữ di sản trực tuyến. Tại đây, chúng tôi sử dụng công nghệ để hồi sinh những kỷ vật, phong tục và kiến trúc xưa, giúp những giá trị truyền thống mãi trường tồn với thời gian.
+                </p>
+                <div class="about-stats">
+                    <div class="stat-item"><span class="stat-number">100+</span><span class="stat-label">Hiện vật</span></div>
+                    <div class="stat-item"><span class="stat-number">1945</span><span class="stat-label">Cội nguồn</span></div>
+                    <div class="stat-item"><span class="stat-number">24/7</span><span class="stat-label">Truy cập</span></div>
+                </div>
+            </div>
+        </section>
 <section class="museum" data-filter="all">
 <h2 class="museum-title">BẢO TÀNG SỐ</h2>
 
@@ -395,12 +430,28 @@ footer{
 </div>
 
 <script>
-/* INTRO */
-window.addEventListener('load',()=>{
-  const intro=document.querySelector('.museum-intro');
-  setTimeout(()=>intro.classList.add('open'),500);
-  setTimeout(()=>intro.remove(),2200);
+/* 1. HIỆU ỨNG INTRO & HIỆN ABOUT (QUAN TRỌNG) */
+window.addEventListener('load', () => {
+    const intro = document.querySelector('.museum-intro');
+    const about = document.querySelector('.about-container');
+    
+    // Mở cửa
+    setTimeout(() => {
+        if(intro) intro.classList.add('open');
+    }, 500);
+
+    // Hiện văn bản giới thiệu sau khi cửa mở
+    setTimeout(() => {
+        if(about) about.classList.add('show');
+    }, 1200);
+
+    // Xóa intro để không bị lỗi giao diện
+    setTimeout(() => {
+        if(intro) intro.remove();
+    }, 2500);
 });
+/* INTRO */
+
 
 /* FILTER */
 const museum=document.querySelector('.museum');
@@ -452,11 +503,5 @@ modal.onclick=e=>{
 
 </body>
 </html>
-
-
-
-
-
-
 
 
