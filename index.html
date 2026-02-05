@@ -1,255 +1,219 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Không GIan Kỳ Ức</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Không Gian Kỳ Ức</title>
 
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400&family=Lora:ital,wght@400;700&display=swap" rel="stylesheet">
 
-<style>
-/* ===== RESET NHẸ ===== */
-body{
-    margin:0;
-    font-family:'Roboto',sans-serif;
-    background:#f4ebd0;
-    color:#2f3a36;
-}
-h1,h2,h3{
-    font-family:'Playfair Display',serif;
-}
-h1{color:#ffcc33;}
-h2,h3{color:#5c4b2a;}
-/* ===== TOP NAV ===== */
-/* ===== NAVBAR ===== */
-.top-nav{
-    position:fixed;
-    top:0;left:0;
-    width:100%;
-    height:56px;
-    background:#111;
-    display:flex;
-    align-items:center;
-    padding:0 20px;
-    z-index:9999;
-}
+    <style>
+        /* ===== 1. TỔNG THỂ ===== */
+        body {
+            margin: 0; font-family: 'Roboto', sans-serif;
+            background: #f4ebd0; color: #2f3a36;
+            overflow-x: hidden; scroll-behavior: smooth;
+        }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
 
-.nav-left{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-right:30px;
-}
+        /* ===== 2. NAV SÁNG TẠO (GLASSMORPHISM) ===== */
+        .top-nav {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 1000px; height: 75px;
+            background: rgba(15, 15, 15, 0.45); 
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 40px;
+            display: flex; align-items: center; justify-content: space-between; padding: 0 30px;
+            z-index: 10000; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); 
+            transition: all 0.4s ease; box-sizing: border-box;
+        }
+        .top-nav.scrolled { top: 10px; height: 60px; background: rgba(17, 17, 17, 0.95); width: 95%; }
+        .nav-logo-text { font-family: 'Playfair Display', serif; color: #d4af37; font-weight: bold; letter-spacing: 1px; }
+        .nav-menu { list-style: none; display: flex; gap: 5px; margin: 0; padding: 0; }
+        .nav-menu a { color: #fff; text-decoration: none; font-size: 14px; padding: 10px 15px; border-radius: 25px; transition: 0.3s; }
+        .nav-menu a:hover { background: rgba(212, 175, 55, 0.3); color: #ffcc33; }
 
-.logo-box{
-    width:34px;
-    height:34px;
-    border-radius:50%;
-    background:#111;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    box-shadow:0 0 0 2px rgba(212,175,55,.5);
-}
+        /* ===== 3. HERO (CHỐNG LẪN MÀU NAV) ===== */
+        .hero {
+            text-align: center; padding: 220px 20px 140px; color: white;
+            background: 
+                linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.7) 100%),
+                url('https://i.postimg.cc/c4LPNk3r/af25da192f6a9faa8b20f683d1193cef.jpg') center/cover no-repeat;
+        }
+        .hero h1 { font-size: 4.5rem; margin: 0; color: #ffcc33; text-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .hero p { font-style: italic; font-size: 1.4rem; margin-top: 15px; opacity: 0.9; }
 
-.nav-logo-text{
-    font-family:'Playfair Display',serif;
-    font-size:15px;
-    letter-spacing:1px;
-    color:#d4af37;
-    white-space:nowrap;
-}
+        /* ===== 4. INTRO (LỜI GIỚI THIỆU) ===== */
+        .intro-text { padding: 120px 20px; text-align: center; background: #f4ebd0; }
+        .intro-container { max-width: 800px; margin: 0 auto; opacity: 0; transform: translateY(30px); transition: 1s; }
+        .intro-container.active { opacity: 1; transform: translateY(0); }
+        .intro-quote { font-family: 'Lora', serif; font-style: italic; font-size: 2rem; color: #5c4b2a; margin-bottom: 30px; line-height: 1.5; }
+        .intro-description { line-height: 2; color: #2f3a36; font-size: 1.2rem; max-width: 700px; margin: 0 auto; }
+        .divider-gold { width: 80px; height: 2px; background: #d4af37; margin: 50px auto; }
 
-.nav-menu{
-    list-style:none;
-    display:flex;
-    gap:22px;
-    margin:0;
-    padding:0;
-    flex:1;
-}
+        /* ===== 5. TIMELINE (DÒNG THỜI GIAN) ===== */
+        .timeline-section { padding: 100px 20px; background: #2f3a36; color: #f4ebd0; position: relative; }
+        .timeline-container { position: relative; max-width: 850px; margin: 0 auto; }
+        .timeline-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: rgba(212,175,55,0.3); transform: translateX(-50%); }
+        .timeline-rider { position: sticky; top: 150px; left: 50%; width: 50px; height: 50px; background: #ffcc33; border-radius: 50%; transform: translateX(-50%); z-index: 10; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 0 20px #ffcc33; }
+        
+        .timeline-item { width: 45%; margin-bottom: 120px; opacity: 0; transform: translateY(50px); transition: 0.8s ease-out; }
+        .timeline-item.active { opacity: 1; transform: translateY(0); }
+        .timeline-item:nth-child(even) { margin-left: auto; }
+        
+        .timeline-content { background: rgba(255,255,255,0.05); padding: 25px; border-radius: 20px; border: 1px solid rgba(212,175,55,0.2); backdrop-filter: blur(10px); transition: 0.3s; }
+        .timeline-content:hover { border-color: #ffcc33; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .timeline-content img { width: 100%; height: 200px; object-fit: cover; border-radius: 12px; cursor: zoom-in; margin-bottom: 20px; }
+        .timeline-content h3 { color: #ffcc33; margin: 0 0 10px; font-size: 2rem; }
 
-.nav-menu a{
-    color:#fff;
-    text-decoration:none;
-    font-size:14px;
-    opacity:.7;
-}
-.nav-menu a:hover{opacity:1}
+        /* ===== 6. LIGHTBOX & CAPSULE ===== */
+        #lightbox { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); display:none; align-items:center; justify-content:center; z-index:20000; cursor: zoom-out; }
+        #lightbox img { max-width: 90%; max-height: 80%; border: 4px solid #ffcc33; }
+        
+        .capsule-section { padding: 120px 20px; background: #0a0a0a; text-align: center; min-height: 650px; position: relative; overflow: hidden; }
+        .capsule-form { position: relative; z-index: 100; max-width: 450px; margin: 40px auto; background: rgba(255,255,255,0.1); padding: 35px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(15px); }
+        .capsule-form input, .capsule-form textarea { width: 100%; background: rgba(0,0,0,0.5); border: 1px solid #5c4b2a; color: #fff; padding: 15px; margin-bottom: 15px; border-radius: 10px; box-sizing: border-box; font-size: 1rem; }
+        .capsule-form button { background: #ffcc33; border: none; padding: 18px; border-radius: 35px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1rem; transition: 0.3s; }
+        
+        .message-star { position: absolute; background: #ffcc33; color: #000; padding: 8px 18px; border-radius: 25px; font-size: 13px; white-space: nowrap; animation: floatUp 12s linear forwards; box-shadow: 0 0 15px #ffcc33; }
+        @keyframes floatUp { from { transform: translateY(110vh); opacity:0; } to { transform: translateY(-10vh); opacity:0; } 10%, 90% { opacity:1; } }
 
-/* ===== MAIN ===== */
-main{padding-top:52px;}
-section{padding:80px 20px;}
-
-/* ===== HERO ===== */
-.hero{
-    text-align:center;
-    padding:140px 20px;
-    color:white;
-    background:
-      linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
-      url('https://i.postimg.cc/c4LPNk3r/af25da192f6a9faa8b20f683d1193cef.jpg') center/cover;
-}
-.hero h1{font-size:3.5rem;}
-.hero p{
-    max-width:700px;
-    margin:auto;
-    font-style:italic;
-}
-
-/* ===== SO SÁNH ẢNH ===== */
-.compare-box{
-    position:relative;
-    max-width:800px;
-    height:550px;
-    margin:40px auto;
-    overflow:hidden;
-}
-.compare-box img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    pointer-events:none;
-    user-select:none;
-}
-
-/* Lớp ảnh phủ */
-.compare-overlay{
-    position:absolute;
-    top:0;
-    left:0;
-    width:50%;
-    height:100%;
-    overflow:hidden;
-    transition:width .05s linear;
-}
-
-/* Thanh kéo */
-.compare-slider{
-    position:absolute;
-    top:0;
-    left:50%;
-    width:4px;
-    height:100%;
-    background:#f1c40f;
-    transform:translateX(-50%);
-    pointer-events:none;
-}
-.compare-slider::after{
-    content:'';
-    position:absolute;
-    top:50%;
-    left:50%;
-    width:18px;
-    height:18px;
-    background:#f1c40f;
-    border-radius:50%;
-    transform:translate(-50%,-50%);
-    box-shadow:0 0 0 4px rgba(0,0,0,.4);
-}
-
-/* ===== FOOTER ===== */
-footer{
-    text-align:center;
-    padding:30px 10px;
-    color:#777;
-    font-size:14px;
-}
-
-/* ===== MOBILE ===== */
-@media(max-width:768px){
-    .hero h1{font-size:2.4rem;}
-    section{padding:60px 16px;}
-}
-</style>
+        footer { text-align: center; padding: 100px; color: #777; letter-spacing: 3px; font-size: 13px; background: #0a0a0a; margin: 0; }
+        @media (max-width: 768px) { .hero h1 { font-size: 2.8rem; } .timeline-item { width: 100% !important; } .timeline-line, .timeline-rider, .nav-logo-text { display: none; } }
+    </style>
 </head>
-
 <body>
 
-<!-- NAV -->
-<nav class="top-nav">
-    <div class="nav-left">
-        <div class="logo-box">
-            <svg width="22" height="22" viewBox="0 0 24 24">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
-                      fill="#d4af37"/>
-                <circle cx="12" cy="9" r="3" fill="#111"/>
-            </svg>
+    <div id="lightbox" onclick="this.style.display='none'"><img id="lightbox-img" src=""></div>
+
+    <nav class="top-nav" id="mainNav">
+        <div class="nav-left">
+            <div class="logo-circle">🚲</div>
+            <div class="nav-logo-text">KHÔNG GIAN KÝ ỨC</div>
         </div>
-        <div class="nav-logo-text">KHÔNG GIAN KÝ ỨC</div>
-    </div>
+        <ul class="nav-menu">
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="disan.html">Di sản</a></li>
+            <li><a href="baotangso.html">Bảo tàng số</a></li>
+            <li><a href="bando.html">Bản đồ ký ức</a></li>
+        </ul>
+    </nav>
 
-    <ul class="nav-menu">
-        <li><a href="index.html">Trang chủ</a></li>
-        <li><a href="disan.html">Di sản</a></li>
-        <li><a href="baotangso.html">Bảo tàng số</a></li>
-        <li><a href="bando.html">Bản đồ ký ức</a></li>
-    </ul>
-</nav>
+    <main>
+        <section class="hero">
+            <h1>KHÔNG GIAN KÝ ỨC</h1>
+            <p>“Nơi thời gian được lưu giữ trong từng hơi thở xưa cũ.”</p>
+        </section>
 
-<!-- ===== MAIN ===== -->
-<main>
+        <section class="intro-text">
+            <div class="intro-container">
+                <div class="divider-gold"></div>
+                <p class="intro-quote">“Có những mảnh thời gian không bao giờ cũ đi, <br> có những không gian vẫn vẹn nguyên tiếng nói của hôm qua.”</p>
+                <div class="intro-description">
+                    <p><strong>Không Gian Kỳ Ức</strong> là nhịp cầu nối liền giữa quá khứ và hiện tại. Tại đây, chúng tôi nâng niu những bức ảnh nhuốm màu thời gian, những câu chuyện kể bên hiên nhà và cả những ước vọng gửi gắm cho mai sau. Hãy cùng chúng tôi lật lại từng trang ký ức, để thấy quê hương mình đã đổi thay mạnh mẽ nhưng tâm hồn thì vẫn luôn ở lại.</p>
+                </div>
+                <div class="divider-gold"></div>
+            </div>
+        </section>
 
-<!-- HERO -->
-<section class="hero" id="index.html">
-    <h1>KHÔNG GIAN KÝ ỨC</h1>
-    <p>Ký ức không mất đi – chúng chỉ đang chờ được kể lại.</p>
-</section>
+        <section class="timeline-section">
+            <h2 style="text-align:center; color: #ffcc33; font-size: 2.5rem; margin-bottom: 80px;">Hành Trình Qua Các Thập Kỷ</h2>
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+                <div class="timeline-rider">🚲</div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <img src="https://vnanet.vn/Data/Articles/2020/08/18/4890284/1808-hanoi-1.jpg" class="zoomable">
+                        <h3>1945</h3>
+                        <p>Mùa thu độc lập. Những bước chân đầu tiên trên con đường tự do, rộn ràng tiếng trống vang khắp làng quê.</p>
+                    </div>
+                </div>
 
-<!-- SO SÁNH ẢNH -->
-<section>
-    <h2 style="text-align:center">Quê nhà – Ngày ấy &amp; Bây giờ</h2>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <img src="https://baoninhbinh.org.vn/DATA/ARTICLES/2021/5/17/ba-con-nong-dan-xa-yen-thai-huyen-yen-mo-trong-ngay-bau-38706.jpg" class="zoomable">
+                        <h3>1960</h3>
+                        <p>Thời kỳ xây dựng nếp sống mới. Những hợp tác xã mọc lên, tiếng máy cày hòa cùng tiếng hò kéo lưới vang vọng bến sông.</p>
+                    </div>
+                </div>
 
-    <div class="compare-box" id="compare">
-      <div class="compare-box" id="compare">
-    <img src="https://static1.cafeland.vn/cafelandnew/hinh-anh/2025/02/24/53/image-20250224104604-1.jpeg" style="display: block; width: 100%;">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <img src="https://photo.znews.vn/w660/Uploaded/mdf_drkyun/2015_04_24/16_1.jpg" class="zoomable">
+                        <h3>1975</h3>
+                        <p>Đất nước trọn niềm vui. Nam Bắc sum họp một nhà, những chuyến tàu thống nhất nối liền những dòng ký ức bị chia cắt.</p>
+                    </div>
+                </div>
 
-    <div class="compare-overlay" id="overlay" style="position: absolute; top: 0; left: 0; height: 110%; border-right: 2px solid #f1c40f; overflow: hidden;">
-        <img src="https://www.dulichvtv.com/wp-content/uploads/2025/07/ban-do-34-tinh-Viet-Nam-1506x1536.jpg" 
-             style="width: 800px; height:550px; object-fit: cover;">
-    </div>
-    
-    <div class="compare-slider" id="slider"></div>
-</div>
-        
-    <p style="text-align:center;font-style:italic;">
-        Di chuột hoặc vuốt để thấy thời gian đổi thay
-    </p>
-</section>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <img src="https://image.vietnamnews.vn/uploadvnnews/Article/2016/11/2/1478051790-25.jpg" class="zoomable">
+                        <h3>1990</h3>
+                        <p>Ký ức thời bao cấp và những ngày đầu Đổi mới. Chiếc radio cassette và những khu tập thể cũ là nhân chứng cho một thời gian khó mà ấm áp.</p>
+                    </div>
+                </div>
 
-</main>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <img src="https://vcdn1-giaitri.vnecdn.net/2021/01/21/hanoi-nam-2000-1-1611195674.jpg?w=1200&h=0&q=100&d=f703529f7962c56a80436d6542031765&s=pXq8hI9S8Yf4I2p_kS6-2A" class="zoomable">
+                        <h3>2010</h3>
+                        <p>Thế kỷ 21 chuyển mình mạnh mẽ. Đô thị hóa bắt đầu thay đổi diện mạo quê hương, nhưng những mái đình xưa vẫn đứng vững trước thời gian.</p>
+                    </div>
+                </div>
 
-<!-- FOOTER -->
-<footer>
-    @DESIGN BY - NGUYỄN THỊ MỸ QUYÊN-
-</footer>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <img src="https://i.postimg.cc/c4LPNk3r/af25da192f6a9faa8b20f683d1193cef.jpg" class="zoomable">
+                        <h3>2026</h3>
+                        <p>Không gian số bảo tồn di sản. Chúng ta gặp lại quá khứ bằng nhịp chạm tương lai, giữ gìn hồn cốt dân tộc mãi mãi xanh tươi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<!-- ===== SCRIPT ===== -->
-<script>
-const box = document.getElementById('compare');
-const overlay = document.getElementById('overlay');
-const slider = document.getElementById('slider');
+        <section class="capsule-section" id="star-field">
+            <h2 style="color: #ffcc33; font-size: 2.8rem;">Gửi Lời Nhắn Đến Tương Lai</h2>
+            <div class="capsule-form">
+                <input type="text" id="user-name" placeholder="Tên của bạn">
+                <textarea id="user-msg" rows="3" placeholder="Lời nhắn gửi cho mai sau..."></textarea>
+                <button onclick="sendMessage()">Thả Ngôi Sao Ký Ức</button>
+            </div>
+        </section>
+    </main>
 
-function updateCompare(x){
-    const r = box.getBoundingClientRect();
-    let percent = (x - r.left) / r.width * 100;
-    percent = Math.max(0, Math.min(100, percent));
-    overlay.style.width = percent + '%';
-    slider.style.left = percent + '%';
-}
+    <footer>@ - DESIGN BY NGUYỄN THỊ MỸ QUYÊN -</footer>
 
-box.addEventListener('mousemove', e => updateCompare(e.clientX));
-box.addEventListener('touchmove', e => updateCompare(e.touches[0].clientX));
-</script>
+    <script>
+        window.addEventListener('scroll', () => {
+            const items = document.querySelectorAll('.timeline-item');
+            items.forEach(item => { 
+                if(item.getBoundingClientRect().top < window.innerHeight - 100) item.classList.add('active'); 
+            });
+            const intro = document.querySelector('.intro-container');
+            if(intro && intro.getBoundingClientRect().top < window.innerHeight - 100) intro.classList.add('active');
+            const nav = document.getElementById('mainNav');
+            window.scrollY > 50 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
+        });
 
+        const lb = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lightbox-img');
+        document.querySelectorAll('.zoomable').forEach(img => { 
+            img.onclick = () => { lbImg.src = img.src; lb.style.display = 'flex'; } 
+        });
+
+        function sendMessage() {
+            const msg = document.getElementById('user-msg').value;
+            const name = document.getElementById('user-name').value || "Ẩn danh";
+            if(!msg) return;
+            const star = document.createElement('div');
+            star.className = 'message-star';
+            star.innerHTML = `<strong>${name}:</strong> ${msg}`;
+            star.style.left = Math.random() * 70 + 15 + '%';
+            document.getElementById('star-field').appendChild(star);
+            document.getElementById('user-msg').value = '';
+            setTimeout(() => star.remove(), 12000);
+        }
+    </script>
 </body>
-
-</html> 
-
-
-
-
-
-
-
+</html>
